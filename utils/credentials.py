@@ -1,0 +1,5 @@
+db_dbname = "database_gnss"
+db_user = "admin"
+db_password = "Dev!!"
+db_host = "47.237.106.32"
+db_port = "5432"
