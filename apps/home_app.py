@@ -16,11 +16,14 @@ class HomeApp(HydraHeadApp):
     #The application must also inherit from the hydrapp class in order to correctly work within Hydralit.
     def run(self):
         st.markdown("<h1 style='text-align:center;padding: 0px 0px;color:black;font-size:200%;'>Aplikasi Pencarian Catalog Data GNSS</h1>",unsafe_allow_html=True)
-        st.markdown('<br><br>',unsafe_allow_html=True) 
-
-        _,_,col_logo, col_text,_ = st.columns(MENU_LAYOUT)
-        col_logo.image(os.path.join(".","resources","data.png"),width=80,)
-        col_text.subheader("Selamat datang di Aplikasi pencarian data GNSS yang lebih mudah dan efisien dengan Aplikasi Pencarian Catalog Data GNSS")  
+        st.markdown(
+            """
+            <div style="display: flex; justify-content: center; padding: 0px 0px;">
+                <img src="https://raw.githubusercontent.com/putuwistika/Porto-SiBapa/master/NEW.png" alt="Gambar" width="400" />
+            </div>
+            """, 
+            unsafe_allow_html=True
+        )
         
         _,_,col_logo, col_text,col_btn = st.columns(MENU_LAYOUT)
         # if col_text.button('Uber Pickups ➡️'):
