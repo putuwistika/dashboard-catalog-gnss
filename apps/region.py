@@ -51,10 +51,10 @@ class RegionApp(HydraHeadApp):
             )
             # Pilih tanggal
             tanggal = st.date_input("Pilih Tanggal")
-            slon = st.number_input("South Longitude", format="%.2f")
-            elon = st.number_input("East Longitude", format="%.2f")
-            slat = st.number_input("South Latitude", format="%.2f")
-            elat = st.number_input("East Latitude", format="%.2f")
+            slon = st.number_input("Start Longitude", format="%.2f")
+            elon = st.number_input("End Longitude", format="%.2f")
+            slat = st.number_input("Start Latitude", format="%.2f")
+            elat = st.number_input("End Latitude", format="%.2f")
             st.markdown("<div class='select-bar'></div>", unsafe_allow_html=True)
 
             # Tombol submit
