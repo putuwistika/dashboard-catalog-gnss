@@ -15,7 +15,7 @@ class HomeApp(HydraHeadApp):
     #This one method that must be implemented in order to be used in a Hydralit application.
     #The application must also inherit from the hydrapp class in order to correctly work within Hydralit.
     def run(self):
-        st.markdown("<h1 style='text-align:center;padding: 0px 0px;color:black;font-size:200%;'>Aplikasi Pencarian Catalog Data GNSS</h1>",unsafe_allow_html=True)
+        st.markdown("<h1 style='text-align:center;padding: 0px 0px;color:white;font-size:200%;'>Aplikasi Pencarian Catalog Data GNSS</h1>",unsafe_allow_html=True)
         st.markdown('<br><br>',unsafe_allow_html=True) 
 
         _,_,col_logo, col_text,_ = st.columns(MENU_LAYOUT)
