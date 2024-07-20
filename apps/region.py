@@ -5,6 +5,7 @@ import utils
 import folium
 from streamlit_folium import folium_static
 from hydralit import HydraHeadApp
+from itables.streamlit import interactive_table
 
 # Fungsi untuk mengubah gambar menjadi bytes
 def img_to_bytes(img_path):
@@ -99,11 +100,13 @@ class RegionApp(HydraHeadApp):
             if df.empty:
                 st.error("Tidak ada data yang ditemukan.")
             else:
-                st.dataframe(df)
+                # st.dataframe(df)
+                interactive_table(df, buttons=["copyHtml5", "csvHtml5", "excelHtml5"])
                 map_center = [(st.session_state['slat'] + st.session_state['elat']) / 2, (st.session_state['slon'] + st.session_state['elon']) / 2]
                 m = folium.Map(location=map_center, zoom_start=6, width='100%')
                 for index, row in df.iterrows():
-                    folium.Marker([row['clat'], row['clon']], popup=row['azim']).add_to(m)
+                    popup_text = f"({row['clat']}, {row['clon']}), {row['basefile']}"
+                    folium.Marker([row['clat'], row['clon']], popup=popup_text).add_to(m)
                 folium_static(m, width=1000, height=600)
         else:
             st.info("Silakan isi parameter di sidebar dan klik Submit untuk menampilkan data.")

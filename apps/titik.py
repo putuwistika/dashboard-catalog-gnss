@@ -3,6 +3,7 @@ from pathlib import Path
 import base64
 import utils
 from hydralit import HydraHeadApp
+from itables.streamlit import interactive_table
 
 # Thanks to streamlitopedia for the following code snippet
 def img_to_bytes(img_path):
@@ -87,7 +88,8 @@ class TitikApp(HydraHeadApp):
             if df.empty:
                 st.error("Tidak ada data yang ditemukan.")
             else:
-                st.dataframe(df)
+                # Tampilkan data
+                interactive_table(df, buttons=["copyHtml5", "csvHtml5", "excelHtml5"])
         else:
             st.info("Silakan isi parameter di sidebar dan klik Submit untuk menampilkan data.")
 
