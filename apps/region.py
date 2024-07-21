@@ -85,7 +85,7 @@ class RegionApp(HydraHeadApp):
 
                     # Query data berdasarkan pilihan user
                     query = f"SELECT * FROM {table} WHERE formatted_date = '{tanggal_str}'"
-                    query += f" AND (SLAT BETWEEN '{slat-5}' AND '{elat+5}') AND (SLON BETWEEN '{slon-5}' AND '{elon+5}')"
+                    query += f" AND (SLAT BETWEEN '{slat}' AND '{elat}') AND (SLON BETWEEN '{slon}' AND '{elon}')"
                     
                     # Load data
                     df = utils.load_data(query)
