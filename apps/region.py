@@ -49,8 +49,9 @@ class RegionApp(HydraHeadApp):
                 f"<img src='{utils.replace_image('resources/region.png', 'logo')}' alt='Logo' width='200'></div>",
                 unsafe_allow_html=True,
             )
-            # Pilih tanggal
-            tanggal = st.date_input("Pilih Tanggal")
+            # Pilih rentang tanggal
+            start_date = st.date_input("Pilih Start Date")
+            end_date = st.date_input("Pilih End Date")
             slon = st.number_input("Start Longitude", format="%.2f")
             elon = st.number_input("End Longitude", format="%.2f")
             slat = st.number_input("Start Latitude", format="%.2f")
@@ -62,19 +63,23 @@ class RegionApp(HydraHeadApp):
 
             if submit:
                 # Validasi input
-                if not tanggal:
-                    st.error("Silakan pilih tanggal terlebih dahulu.")
+                if not start_date or not end_date:
+                    st.error("Silakan pilih start date dan end date.")
+                elif start_date > end_date:
+                    st.error("Start date tidak boleh lebih besar dari end date.")
                 else:
                     # Simpan nilai ke session state
-                    st.session_state['tanggal'] = tanggal
+                    st.session_state['start_date'] = start_date
+                    st.session_state['end_date'] = end_date
                     st.session_state['slon'] = slon
                     st.session_state['elon'] = elon
                     st.session_state['slat'] = slat
                     st.session_state['elat'] = elat
 
                     # Format tanggal ke string sesuai format SQL
-                    tanggal_str = tanggal.strftime('%Y-%m-%d')
-                    year = tanggal.year
+                    start_date_str = start_date.strftime('%Y-%m-%d')
+                    end_date_str = end_date.strftime('%Y-%m-%d')
+                    year = start_date.year
 
                     # Tentukan tabel berdasarkan tahun
                     if 2019 <= year <= 2024:
@@ -84,7 +89,7 @@ class RegionApp(HydraHeadApp):
                         return
 
                     # Query data berdasarkan pilihan user
-                    query = f"SELECT * FROM {table} WHERE formatted_date = '{tanggal_str}'"
+                    query = f"SELECT * FROM {table} WHERE formatted_date BETWEEN '{start_date_str}' AND '{end_date_str}'"
                     query += f" AND (SLAT BETWEEN '{slat}' AND '{elat}') AND (SLON BETWEEN '{slon}' AND '{elon}')"
                     
                     # Load data

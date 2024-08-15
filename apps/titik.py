@@ -5,7 +5,7 @@ import utils
 from hydralit import HydraHeadApp
 from itables.streamlit import interactive_table
 
-# Thanks to streamlitopedia for the following code snippet
+# Fungsi untuk mengubah gambar menjadi bytes
 def img_to_bytes(img_path):
     img_bytes = Path(img_path).read_bytes()
     encoded = base64.b64encode(img_bytes).decode()
@@ -46,8 +46,9 @@ class TitikApp(HydraHeadApp):
                 f"<img src='{utils.replace_image('resources/titik.png', 'logo')}' alt='Logo' width='200'>",
                 unsafe_allow_html=True,
             )
-            # Pilih tanggal
-            tanggal = st.date_input("Pilih Tanggal")
+            # Pilih rentang tanggal
+            start_date = st.date_input("Pilih Start Date")
+            end_date = st.date_input("Pilih End Date")
             lat = st.number_input("Latitude", format="%.2f")
             lon = st.number_input("Longitude", format="%.2f")
             st.markdown("<div class='select-bar'></div>", unsafe_allow_html=True)
@@ -57,12 +58,15 @@ class TitikApp(HydraHeadApp):
 
             if submit:
                 # Validasi input
-                if not tanggal:
-                    st.error("Silakan pilih tanggal terlebih dahulu.")
+                if not start_date or not end_date:
+                    st.error("Silakan pilih start date dan end date.")
+                elif start_date > end_date:
+                    st.error("Start date tidak boleh lebih besar dari end date.")
                 else:
                     # Format tanggal ke string sesuai format SQL
-                    tanggal_str = tanggal.strftime('%Y-%m-%d')
-                    year = tanggal.year
+                    start_date_str = start_date.strftime('%Y-%m-%d')
+                    end_date_str = end_date.strftime('%Y-%m-%d')
+                    year = start_date.year
 
                     # Tentukan tabel berdasarkan tahun
                     if 2019 <= year <= 2024:
@@ -72,7 +76,7 @@ class TitikApp(HydraHeadApp):
                         return
 
                     # Query data berdasarkan pilihan user
-                    query = f"SELECT * FROM {table} WHERE formatted_date = '{tanggal_str}'"
+                    query = f"SELECT * FROM {table} WHERE formatted_date BETWEEN '{start_date_str}' AND '{end_date_str}'"
                     query += f" AND (CLAT BETWEEN '{lat-5}' AND '{lat+5}') AND (CLON BETWEEN '{lon-5}' AND '{lon+5}')"
                     
                     # Load data
@@ -92,5 +96,3 @@ class TitikApp(HydraHeadApp):
                 interactive_table(df, buttons=["copyHtml5", "csvHtml5", "excelHtml5"])
         else:
             st.info("Silakan isi parameter di sidebar dan klik Submit untuk menampilkan data.")
-
-
